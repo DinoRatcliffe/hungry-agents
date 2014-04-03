@@ -20,9 +20,9 @@ public class Main {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		Environment e = new Environment(WIDTH, HEIGHT);
-		e.addAgent(new DumbAgent(new Point(0, 0)));
-		e.addAgent(new VisualAgent(new Point(6, 6)));
-		e.addAgent(new AwareAgent(new Point(0, 1)));
+		e.addAgent(new DumbAgent(new Point(3, 2)));
+		e.addAgent(new VisualAgent(new Point(0, 0)));
+		e.addAgent(new AwareAgent(new Point(6, 5)));
 		
 		int t = 0;
 		

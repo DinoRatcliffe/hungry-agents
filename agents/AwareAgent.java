@@ -23,10 +23,11 @@ public class AwareAgent extends Agent {
 	
 	Map<Point, Entry<Item, Double>> _worldMemory; // the representation of the agents view of the world
 
+	Point lastPosition;
+	
 	public AwareAgent(Point initialPosition) {
 		super(initialPosition);
 		_worldMemory = new HashMap<Point, Entry<Item, Double>>();
-		// TODO Auto-generated constructor stub
 	}
 
 	
@@ -39,13 +40,17 @@ public class AwareAgent extends Agent {
 		_worldMemory.put(position, new AbstractMap.SimpleEntry<Item, Double>(currentItem, 1.0));
 		if ( currentItem != null && !currentItem.isConsumed && ((currentItem.greenGain > 0 && greenEnergy < MAXIMUM_ENERGY && (greenEnergy <= pinkEnergy || greenEnergy < MAXIMUM_ENERGY / 2)) || (currentItem.pinkGain > 0 && pinkEnergy < MAXIMUM_ENERGY && (pinkEnergy <= greenEnergy || pinkEnergy < MAXIMUM_ENERGY / 2))))  {
 			currentItem.consume(this);
+			lastPosition = null;
 		} else {
-			// TODO Auto-generated method stub
 			List<Point> possibleMoves = e.getPossibleMoves(this.position);
-			
 			updateMemory(possibleMoves, e);
 			
 			Point move = pickMove(possibleMoves);
+			if (lastPosition != null && lastPosition.equals(move)) {
+				Collections.shuffle(possibleMoves);
+				move = possibleMoves.get(0);
+			}
+			lastPosition = this.position;
 			moveToPosition(e, move);
 		}
 
@@ -91,6 +96,7 @@ public class AwareAgent extends Agent {
 	 * @return
 	 */
 	public Point pickMove(List<Point> possibleMoves) {
+		Collections.shuffle(possibleMoves);
 		Point mostDesired = null;
 		for (Point p : possibleMoves) {
 			
@@ -117,16 +123,12 @@ public class AwareAgent extends Agent {
 		Item itemA = _worldMemory.get(pointA).getKey();
 		Item itemB = _worldMemory.get(pointB).getKey();
 		if (greenEnergy <= pinkEnergy) {
-			if (itemB != null && itemA != null) {
+			if (itemB != null) {
 				best = itemA.greenGain * itemA.quantity > itemB.greenGain * itemB.quantity /* && (_worldMemory.get(pointA).getValue() > _worldMemory.get(pointB).getValue() && itemB.greenGain * itemB.quantity > 0) */ ? pointA : pointB;
-			} else if (itemB != null) {
-				best = pointB;
 			}
 		} else {
-			if (itemB != null && itemA != null) {
+			if (itemB != null) {
 				best = itemA.pinkGain * itemA.quantity > itemB.pinkGain * itemB.quantity /* && (_worldMemory.get(pointA).getValue() > _worldMemory.get(pointB).getValue() && itemB.pinkGain * itemB.quantity > 0) */ ? pointA : pointB;
-			} else if (itemB != null) {
-				best = pointB;
 			}
 		}
 		return best;
