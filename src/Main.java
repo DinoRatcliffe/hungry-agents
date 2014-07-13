@@ -26,7 +26,7 @@ public class Main {
 		
 		int t = 0;
 		
-		while (true) {
+		while (t <= 1500) {
 			System.out.println("\n**** TIME "+ t +" ****");
 			System.out.println(e);
 			e.update();
