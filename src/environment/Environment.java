@@ -176,12 +176,30 @@ public class Environment {
 	 * 
 	 * @param sight		number between 0 and 1, represents how good the agents sight is
 	 * @param position	the position to be viewed
-	 * @return			the item at that position or a random item.
+	 * @return		the item at that position or a random item.
 	 */
 	public Item viewItemAtPosition(double sight, Point position) {
 		double chanceOfCorrect = sight * visibility;
 		
 		return _random.nextFloat() > chanceOfCorrect ? _world[position.x][position.y] : getRandomItem();
+	}
+
+	/**
+	 * Indicates if the environment currently has 
+	 * any active agents.
+	 *
+	 * @return
+	 */
+	public boolean hasActiveAgents() {
+		//should probaby have callback that simply removes agent as soon as
+		//it dies
+		boolean activeAgents = false;
+		for(Agent a : _agents) {
+			if (!a.isDead()) {
+				activeAgents = true;
+			}
+		}
+		return activeAgents;
 	}
 
 	/**
@@ -207,6 +225,5 @@ public class Environment {
 		}
 		return item;
 	}
-
 
 }

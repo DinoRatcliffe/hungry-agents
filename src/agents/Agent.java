@@ -94,7 +94,10 @@ public abstract class Agent {
 	}
 
 	public char getDisplayChar() {
-		// TODO Auto-generated method stub
 		return isDead ? deadDisplayChar : displayChar;
+	}
+
+	public boolean isDead() {
+		return isDead;
 	}
 }

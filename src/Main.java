@@ -19,17 +19,17 @@ public class Main {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		Environment e = new Environment(WIDTH, HEIGHT);
-		e.addAgent(new DumbAgent(new Point(3, 2)));
-		e.addAgent(new VisualAgent(new Point(0, 0)));
-		e.addAgent(new AwareAgent(new Point(6, 5)));
+		Environment environment = new Environment(WIDTH, HEIGHT);
+		environment.addAgent(new DumbAgent(new Point(3, 2)));
+		environment.addAgent(new VisualAgent(new Point(0, 0)));
+		environment.addAgent(new AwareAgent(new Point(6, 5)));
 		
 		int t = 0;
 		
-		while (t <= 1500) {
+		while (environment.hasActiveAgents()) {
 			System.out.println("\n**** TIME "+ t +" ****");
-			System.out.println(e);
-			e.update();
+			System.out.println(environment);
+			environment.update();
 			t++;
 			Thread.sleep(10);
 		}
